@@ -1,0 +1,71 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+    <servlet-name>DailyPosts</servlet-name>
+    <servlet-class>ir.maktab.controller.DailyPosts</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SignIn</servlet-name>
+    <servlet-class>ir.maktab.controller.SignInServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Menu</servlet-name>
+    <servlet-class>ir.maktab.controller.MenuServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>ir.maktab.controller.LoginServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>follow</servlet-name>
+    <servlet-class>ir.maktab.controller.FollowServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>follower</servlet-name>
+    <servlet-class>ir.maktab.controller.FollowerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Post</servlet-name>
+    <servlet-class>ir.maktab.controller.PostServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>commentorlike</servlet-name>
+    <servlet-class>ir.maktab.controller.CommentOrLikeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>commentorlike</servlet-name>
+    <url-pattern>/commentorlike</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Post</servlet-name>
+    <url-pattern>/post</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>follower</servlet-name>
+    <url-pattern>/follower</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>follow</servlet-name>
+    <url-pattern>/follow</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DailyPosts</servlet-name>
+    <url-pattern>/checkDailyPosts</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Menu</servlet-name>
+    <url-pattern>/menu</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SignIn</servlet-name>
+    <url-pattern>/signin</url-pattern>
+  </servlet-mapping>
+</web-app>
