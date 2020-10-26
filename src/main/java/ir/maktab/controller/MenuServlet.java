@@ -16,17 +16,17 @@ public class MenuServlet extends HttpServlet {
         out.println("<html lang=\"en\">\n");
         out.println("<a href=\"checkDailyPosts\">Check Daily Posts</a>\" <br> ");
         out.println("<a href=\"follow.html\">To Follow Someone</a>\"");
-        out.println("<a href=\"follower\">View Your Followings</a>\"");
+        out.println("<a href=\"follower\">View Your Followers</a>\"");
+        out.println("<a href=\"followings\">View Your Followings</a>\"");
         out.println("<a href=\"post.html\">To Post To Your Profile </a>\"");
-        out.println("To See The Posts You Liked Press 5");
-        out.println("To See Posts You Commented Press 6");
-        out.println("To See Your Followings Press 7");
-        out.println("To See Posts of Ones You Follow Press 8");
-        out.println("To See Your Posts Press 9");
+        out.println("<a href=\"postliked\">See The Posts You Liked </a>\"");
+        out.println("<a href=\"postcommented\">See The Posts You Commented </a>\"");
+        out.println("<a href=\"userfollowingpost\">See Posts of Ones You Follow  </a>\"");
+        out.println("<a href=\"yourposts\"> See Your Posts </a>\"");
+        out.println("<a href=\"trends\"> See Trends </a>\"");
+        out.println("<a href=\"unfollow\"> Unfollow </a>\"");
         out.println("To Edit Your Profile Press 10");
-        out.println("To See Trends Press 11");
         out.println("To Edit Or Delete Your Posts Press 12");
-        out.println("To UnFollow Someone Press 13");
         out.println("To Log Out Press 14");
     }
 

@@ -12,13 +12,6 @@ public class Post extends BaseEntity<Long> {
     private String content;
     @Column(name = "date", nullable = false, updatable = false)
     private Date date = new Date();
-    @Lob
-    @Column(name="image", columnDefinition="longblob")
-    private byte[] image;
-
-    @Lob
-    @Column(name="video", columnDefinition="longblob")
-    private byte[] video;
 
     @ManyToOne
     @JoinColumn(name = "userid")
@@ -33,13 +26,6 @@ public class Post extends BaseEntity<Long> {
     @OneToMany(mappedBy = "post", cascade = {CascadeType.REMOVE,CascadeType.MERGE},orphanRemoval = true)
     private List<Comment> comments = new LinkedList<>();
 
-    public byte[] getVideo() {
-        return video;
-    }
-
-    public void setVideo(byte[] video) {
-        this.video = video;
-    }
 
     public Date getDate() {
         return date;
@@ -93,14 +79,6 @@ public class Post extends BaseEntity<Long> {
     public void addComment(Comment comment) {
 //        comment.setPost(this);
         comments.add(comment);
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
     }
 
     @Override

@@ -6,7 +6,7 @@
   <display-name>Archetype Created Web Application</display-name>
   <servlet>
     <servlet-name>DailyPosts</servlet-name>
-    <servlet-class>ir.maktab.controller.DailyPosts</servlet-class>
+    <servlet-class>ir.maktab.controller.DailyPostsServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>SignIn</servlet-name>
@@ -36,6 +36,62 @@
     <servlet-name>commentorlike</servlet-name>
     <servlet-class>ir.maktab.controller.CommentOrLikeServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>postliked</servlet-name>
+    <servlet-class>ir.maktab.controller.PostLikedServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>followings</servlet-name>
+    <servlet-class>ir.maktab.controller.FollowingsServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>postcommented</servlet-name>
+    <servlet-class>ir.maktab.controller.PostCommentedServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>userfollowingpost</servlet-name>
+    <servlet-class>ir.maktab.controller.FollowingUserPostServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>yourposts</servlet-name>
+    <servlet-class>ir.maktab.controller.YourPostsServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>trends</servlet-name>
+    <servlet-class>ir.maktab.controller.TrendingPostsServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>unfollow</servlet-name>
+    <servlet-class>ir.maktab.controller.UnFollowServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>unfollow</servlet-name>
+    <url-pattern>/unfollow</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>trends</servlet-name>
+    <url-pattern>/trends</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>yourposts</servlet-name>
+    <url-pattern>/yourposts</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>userfollowingpost</servlet-name>
+    <url-pattern>/userfollowingpost</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>followings</servlet-name>
+    <url-pattern>/followings</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>postcommented</servlet-name>
+    <url-pattern>/postcommented</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>postliked</servlet-name>
+    <url-pattern>/postliked</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>commentorlike</servlet-name>
     <url-pattern>/commentorlike</url-pattern>

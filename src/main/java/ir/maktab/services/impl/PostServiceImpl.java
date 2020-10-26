@@ -10,25 +10,21 @@ import ir.maktab.services.CommentService;
 import ir.maktab.services.PostService;
 import ir.maktab.services.UserService;
 
-import java.awt.*;
+import javax.servlet.ServletOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 
 public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository> implements PostService {
-//    private final Consumer<Post> addLikeOrComment;
-    private final Consumer<Post> displayPost;
+    //    private final Consumer<Post> addLikeOrComment;
+//    private final Consumer<Post> displayPost;
     private final UserService userService;
     private final CommentService commentService;
-    private final User user;
+    private User user;
 
     public PostServiceImpl() {
         PostRepository postRepository = new PostRepositoryImpl();
@@ -36,37 +32,37 @@ public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository>
         commentService = MyApp.getCommentService();
         user = UserServiceImpl.getUser();
         //Consumer!
-        displayPost = (c) -> {
-            if (c.getImage() != null) {
-                byte[] img = c.getImage();
-                File file = new File("output.jpg");
-                try {
-                    FileOutputStream fos = new FileOutputStream(file);
-                    fos.write(img);
-                    fos.close();
-                    Desktop desktop = Desktop.getDesktop();
-                    desktop.open(new File("output.jpg"));
-                    System.out.println(c);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (c.getVideo() != null) {
-                byte[] video = c.getVideo();
-                File file = new File("output.mp4");
-                try {
-                    FileOutputStream fos = new FileOutputStream(file);
-                    fos.write(video);
-                    fos.close();
-                    Desktop desktop = Desktop.getDesktop();
-                    desktop.open(new File("output.mp4"));
-                    System.out.println(c);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                System.out.println(c);
-            }
-        };
+//        displayPost = (c) -> {
+//            if (c.getImage() != null) {
+//                byte[] img = c.getImage();
+//                File file = new File("output.jpg");
+//                try {
+//                    FileOutputStream fos = new FileOutputStream(file);
+//                    fos.write(img);
+//                    fos.close();
+//                    Desktop desktop = Desktop.getDesktop();
+//                    desktop.open(new File("output.jpg"));
+//                    System.out.println(c);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            } else if (c.getVideo() != null) {
+//                byte[] video = c.getVideo();
+//                File file = new File("output.mp4");
+//                try {
+//                    FileOutputStream fos = new FileOutputStream(file);
+//                    fos.write(video);
+//                    fos.close();
+//                    Desktop desktop = Desktop.getDesktop();
+//                    desktop.open(new File("output.mp4"));
+//                    System.out.println(c);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                System.out.println(c);
+//            }
+//        };
 //        addLikeOrComment = (c) -> {
 //            String choice = sc.getString("Comment Or Like Or Both Or Pass: ").toUpperCase();
 //            switch (choice) {
@@ -92,54 +88,47 @@ public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository>
     }
 
     @Override
-    public boolean save(String content,String path) {
+    public boolean save(String content, String path) {
         Post post = new Post();
-    try {
-        if (path != null) {
-            File file = new File(path);
-            byte[] bFile = new byte[(int) file.length()];
-            try {
-                FileInputStream fileInputStream = new FileInputStream(file);
-                fileInputStream.read(bFile);
-                fileInputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
-            String pathFile = path.toUpperCase();
-            if (pathFile.endsWith(".JPG")) {
-                post.setImage(bFile);
-            } else if (pathFile.endsWith("MP4")) {
-                post.setVideo(bFile);
-            }
+        Date date = new Date();
+        post.setDate(date);
+        user = UserServiceImpl.getUser();
+        try {
+//            if (path != null) {
+//                File file = new File(path);
+//                byte[] bFile = new byte[(int) file.length()];
+//                try {
+//                    FileInputStream fileInputStream = new FileInputStream(file);
+//                    fileInputStream.read(bFile);
+//                    fileInputStream.close();
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    return false;
+//                }
+//                String pathFile = path.toUpperCase();
+//                if (pathFile.endsWith(".JPG")) {
+//                    post.setImage(bFile);
+//                } else if (pathFile.endsWith("MP4")) {
+//                    post.setVideo(bFile);
+//                }
+//            }
+            post.setContent(content);
+            UserServiceImpl.getUser().addPost(post);
+            post.setUser(UserServiceImpl.getUser());
+            baseRepository.saveOrUpdate(post);
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
         }
-        post.setContent(content);
-        UserServiceImpl.getUser().addPost(post);
-        post.setUser(UserServiceImpl.getUser());
-        post.setDate(new Date());
-        baseRepository.saveOrUpdate(post);
-        return true;
-    }catch (Exception ex){
-        ex.printStackTrace();
-        return false;
-    }
     }
 
     @Override
-    public void displayLikedPosts() {
-//        User u = UserServiceImpl.getUser();
-//        Set<Post> postsLiked = u.getPostsLiked();
-//        if (postsLiked != null) {
-//            int i = 0;
-//            Iterator<Post> it = postsLiked.iterator();
-//            while (it.hasNext() && i < 5) {
-//                it.forEachRemaining(displayPost.andThen(addLikeOrComment).andThen
-//                        ((c) -> deleteOutputFile()));
-//                i++;
-//            }
-//        } else {
-//            System.out.println("No Post Liked!");
-//        }
+    public Set<Post> getLikedPosts() {
+        User u = UserServiceImpl.getUser();
+        return u.getPostsLiked();
+
     }
 
     @Override
@@ -159,12 +148,10 @@ public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository>
     }
 
     @Override
-    public void displayTrends() {
-//        int max = baseRepository.findMaximumLike();
-//        List<Post> trends = baseRepository.findTrends(max);
-//        trends.forEach(displayPost.andThen(addLikeOrComment).andThen
-//                ((c) -> deleteOutputFile()));
-//        deleteOutputFile();
+    public List<Post> getTrends() {
+        int max = baseRepository.findMaximumLike();
+        return baseRepository.findTrends(max);
+
     }
 
     @Override
@@ -273,8 +260,50 @@ public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository>
     }
 
     @Override
-    public void displayCommentedPosts() {
-//        List<Post> commentedPosts = commentService.getCommentedPosts();
-//        commentedPosts.forEach(displayPost.andThen(addLikeOrComment));
+    public List<Post> getCommentedPosts() {
+        return commentService.getCommentedPosts();
     }
+
+    @Override
+    public void displayPost(Post c, ServletOutputStream out) {
+//        AtomicInteger j = new AtomicInteger();
+//        AtomicInteger z = new AtomicInteger();
+//        j.set(0);
+//        z.set(0);
+        try {
+//            if (c.getImage() != null) {
+//                j.getAndIncrement();
+//                byte[] img = c.getImage();
+//                File file = new File("D:\\Programs\\Java\\InstagramHTML\\src\\main\\webapp\\" + j + ".jpg");
+//                FileOutputStream fos = new FileOutputStream(file);
+//                fos.write(img);
+//                fos.close();
+//                System.out.println(j.get());
+//                System.out.println(c);
+//                System.out.println(file.canRead());
+//                System.out.println("<img src=\"http://localhost:8080/InstagramHTML_war_exploded/" + j + ".jpg\" alt=\"output\">");
+//                out.println("<img src=\"http://localhost:8080/InstagramHTML_war_exploded/" + j + ".jpg\" alt=\"output\">");
+//                out.println("<br>" + c + "<hr>");
+//
+//            } else if (c.getVideo() != null) {
+//                z.getAndIncrement();
+//                byte[] video = c.getVideo();
+//                File file = new File("D:\\Programs\\Java\\InstagramHTML\\src\\main\\webapp\\" + z + ".mp4");
+//                FileOutputStream fos = new FileOutputStream(file);
+//                fos.write(video);
+//                fos.close();
+//                out.println("<video width=\"400\" controls>\n" +
+//                        "    <source src=\"http://localhost:8080/InstagramHTML_war_exploded/" + z + ".mp4\" type=\"video\\mp4\">\n" +
+//                        "</video>");
+//                out.println("<br>" + c + "<hr>");
+//            } else {
+                out.println("<br>" + c + "<hr>");
+//            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

@@ -3,12 +3,14 @@ package ir.maktab.services;
 import ir.maktab.base.services.BaseService;
 import ir.maktab.domains.Post;
 
+import javax.servlet.ServletOutputStream;
 import java.util.List;
+import java.util.Set;
 
 public interface PostService extends BaseService<Post, Long> {
     boolean save(String content,String path);
 
-    void displayLikedPosts();
+    Set<Post> getLikedPosts();
 
     List<List<Post>> getDailyPosts();
 
@@ -16,9 +18,11 @@ public interface PostService extends BaseService<Post, Long> {
 
     void displayFollowingsPosts();
 
-    void displayTrends();
+    List<Post> getTrends();
 
     void edit();
 
-    void displayCommentedPosts();
+    List<Post> getCommentedPosts();
+
+    void displayPost(Post c, ServletOutputStream out);
 }

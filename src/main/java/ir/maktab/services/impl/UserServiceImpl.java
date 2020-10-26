@@ -64,4 +64,17 @@ public class UserServiceImpl extends BaseServiceImpl<User,Long, UserRepository> 
         }
     }
 
+    @Override
+    public User findByUserName(String userName) {
+        return baseRepository.findByUserName(userName);
+    }
+
+    @Override
+    public void unFollow(User following) {
+        user.removeFollowing(following);
+        following.removeFollower(user);
+        saveOrUpdate(following);
+        saveOrUpdate(user);
+        System.out.println("Done");
+    }
 }
