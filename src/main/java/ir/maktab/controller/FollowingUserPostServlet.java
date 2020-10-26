@@ -42,7 +42,7 @@ public class FollowingUserPostServlet extends HttpServlet {
         User user = userService.findByUserName(userName);
         if(user != null) {
             user.getPosts()
-                    .forEach((c) -> postService.displayPost(c, out));
+                    .forEach((c) -> postService.displayPost(c, out, true));
         }else{
             out.println("<h1>Invalid User!</h1>");
         }

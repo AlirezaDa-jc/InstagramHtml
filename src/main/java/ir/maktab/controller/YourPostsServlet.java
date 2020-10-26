@@ -20,6 +20,6 @@ public class YourPostsServlet extends HttpServlet {
         PostService postService = MyApp.getPostService();
         User user = UserServiceImpl.getUser();
         user.getPosts()
-                .forEach((c)->postService.displayPost(c,out));
+                .forEach((c)->postService.displayPost(c,out, true));
     }
 }

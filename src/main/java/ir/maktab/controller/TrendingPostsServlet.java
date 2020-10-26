@@ -17,6 +17,6 @@ public class TrendingPostsServlet extends HttpServlet {
         resp.setContentType("text/html");
         PostService postService = MyApp.getPostService();
         postService.getTrends()
-                .forEach((c) -> postService.displayPost(c,out));
+                .forEach((c) -> postService.displayPost(c,out, true));
     }
 }

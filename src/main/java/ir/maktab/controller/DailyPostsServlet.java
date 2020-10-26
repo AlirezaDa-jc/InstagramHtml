@@ -19,16 +19,11 @@ public class DailyPostsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ServletOutputStream out = resp.getOutputStream();
         resp.setContentType("text/html");
-        /*
-        Image Save !
-        //TODO
-         */
-
         User user = UserServiceImpl.getUser();
         PostService postService = MyApp.getPostService();
         List<List<Post>> dailyPosts = postService.getDailyPosts();
         dailyPosts.forEach(posts -> posts.stream()
                 .filter((c) -> c.getDate().compareTo(user.getDate()) > 0)
-                .forEach((c) -> postService.displayPost(c,out)));
+                .forEach((c) -> postService.displayPost(c,out,true)));
     }
 }

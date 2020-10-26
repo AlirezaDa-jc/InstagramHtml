@@ -25,6 +25,7 @@ public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository>
     private final UserService userService;
     private final CommentService commentService;
     private User user;
+    private static Post post;
 
     public PostServiceImpl() {
         PostRepository postRepository = new PostRepositoryImpl();
@@ -85,6 +86,14 @@ public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository>
 //
 //        };
         super.setRepository(postRepository);
+    }
+
+    public static Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        PostServiceImpl.post = post;
     }
 
     @Override
@@ -265,7 +274,7 @@ public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository>
     }
 
     @Override
-    public void displayPost(Post c, ServletOutputStream out) {
+    public void displayPost(Post c, ServletOutputStream out, boolean flag) {
 //        AtomicInteger j = new AtomicInteger();
 //        AtomicInteger z = new AtomicInteger();
 //        j.set(0);
@@ -297,12 +306,24 @@ public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository>
 //                        "</video>");
 //                out.println("<br>" + c + "<hr>");
 //            } else {
-                out.println("<br>" + c + "<hr>");
+                out.println("<br>" + c + "<br>");
 //            }
-
+            if(flag){
+                out.println("<form name=\"form1\" method=\"post\" action=\"commentorlike\" target=\"_blank\">\n" +
+                        "    <br>\n" +
+                        "    <label for=\"Like\">Like:</label><input type=\"checkbox\" id=\"Like\" name=\"Like\" checked>\n" +
+                        "    <label for=\"Comment\">Comment:</label><input type=\"checkbox\" id=\"Comment\" name=\"Comment\">\n" +
+                        "    <label for=\"CommentText\">Comment:</label>\n" +
+                        "    <input type=\"text\" id=\"CommentText\" name=\"CommentText\">\n" +
+                        "    <input type=\"submit\" value=\"submit\">\n" +
+                        "</form>");
+                post = c;
+            }
+            out.println("<hr>");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 

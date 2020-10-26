@@ -24,5 +24,5 @@ public interface PostService extends BaseService<Post, Long> {
 
     List<Post> getCommentedPosts();
 
-    void displayPost(Post c, ServletOutputStream out);
+    void displayPost(Post c, ServletOutputStream out, boolean flag);
 }

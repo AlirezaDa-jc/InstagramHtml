@@ -8,6 +8,7 @@ import ir.maktab.domains.Comment;
 import ir.maktab.domains.Post;
 import ir.maktab.domains.User;
 import ir.maktab.services.CommentService;
+import ir.maktab.services.PostService;
 
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment, Long, CommentRe
         comment.setComment(content);
         comment.setUser(user);
         comment.setPost(c);
+        PostService postService = MyApp.getPostService();
+        postService.saveOrUpdate(c);
     }
 
     @Override

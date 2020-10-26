@@ -19,6 +19,6 @@ public class PostCommentedServlet extends HttpServlet {
         resp.setContentType("text/html");
         PostService postService = MyApp.getPostService();
         List<Post> commentedPosts = postService.getCommentedPosts();
-        commentedPosts.forEach((c)->postService.displayPost(c,out));
+        commentedPosts.forEach((c)->postService.displayPost(c,out, true));
     }
 }

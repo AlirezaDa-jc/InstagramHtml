@@ -53,10 +53,6 @@
     <servlet-class>ir.maktab.controller.FollowingUserPostServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>trends</servlet-name>
-    <servlet-class></servlet-class>
-  </servlet>
-  <servlet>
     <servlet-name>yourposts</servlet-name>
     <servlet-class>ir.maktab.controller.YourPostsServlet</servlet-class>
   </servlet>

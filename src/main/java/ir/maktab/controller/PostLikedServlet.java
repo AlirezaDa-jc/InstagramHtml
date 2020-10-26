@@ -19,6 +19,6 @@ public class PostLikedServlet  extends HttpServlet {
         resp.setContentType("text/html");
         PostService postService = MyApp.getPostService();
         Set<Post> likedPosts = postService.getLikedPosts();
-        likedPosts.forEach((c)->postService.displayPost(c,out));
+        likedPosts.forEach((c)->postService.displayPost(c,out, true));
     }
 }
