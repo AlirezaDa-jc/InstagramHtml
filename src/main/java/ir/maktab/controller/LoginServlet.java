@@ -30,7 +30,7 @@ public class LoginServlet  extends HttpServlet {
             UserService userService = MyApp.getUserService();
             if (userService.login(userName, password)) {
                 //req Dispatcher
-                out.println("Welcome" + userName);
+                out.println("Welcome  " + userName);
                 out.println("<a href=\"menu\">Menu!</a>");
             } else {
                 out.println("Wrong Password");
