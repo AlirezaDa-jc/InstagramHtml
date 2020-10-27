@@ -12,17 +12,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Set;
 
 public class FollowingUserPostServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        PrintWriter out = resp.getWriter();
+        ServletOutputStream out = resp.getOutputStream();
+        out.println("<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <title>Liked Posts</title>\n"
+                + "    <style>\n" );
+        MyApp.displayPage(resp, out);
         User user = UserServiceImpl.getUser();
         Set<User> followings = user.getFollowings();
-        followings.forEach(out::println);
+        followings.forEach((c)-> {
+            try {
+                out.println(String.valueOf(c));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         out.println("<form name=\"form1\" method=\"post\" action=\"userfollowingpost\">\n" +
                 "    <label for=\"UserName\">UserName:</label>\n" +
                 "    <input type=\"text\" id=\"UserName\" name=\"username\">\n" +
@@ -38,7 +49,7 @@ public class FollowingUserPostServlet extends HttpServlet {
         UserService userService = MyApp.getUserService();
         PostService postService = MyApp.getPostService();
         ServletOutputStream out = resp.getOutputStream();
-        resp.setContentType("text/html");
+        MyApp.displayPage(resp, out);
         User user = userService.findByUserName(userName);
         if(user != null) {
             user.getPosts()

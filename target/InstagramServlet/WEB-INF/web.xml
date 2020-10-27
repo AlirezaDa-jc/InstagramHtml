@@ -53,6 +53,10 @@
     <servlet-class>ir.maktab.controller.FollowingUserPostServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>editProfile</servlet-name>
+    <servlet-class>ir.maktab.controller.EditProfileServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>yourposts</servlet-name>
     <servlet-class>ir.maktab.controller.YourPostsServlet</servlet-class>
   </servlet>
@@ -64,6 +68,34 @@
     <servlet-name>unfollow</servlet-name>
     <servlet-class>ir.maktab.controller.UnFollowServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>editpost</servlet-name>
+    <servlet-class>ir.maktab.controller.EditPostServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>deletecomment</servlet-name>
+    <servlet-class>ir.maktab.controller.DeleteCommentServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>logout</servlet-name>
+    <servlet-class>ir.maktab.controller.LogOutServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>logout</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>deletecomment</servlet-name>
+    <url-pattern>/deletecomment</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>editpost</servlet-name>
+    <url-pattern>/editpost</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>editProfile</servlet-name>
+    <url-pattern>/editProfile</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>unfollow</servlet-name>
     <url-pattern>/unfollow</url-pattern>

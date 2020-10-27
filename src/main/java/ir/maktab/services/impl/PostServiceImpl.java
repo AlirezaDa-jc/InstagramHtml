@@ -11,7 +11,6 @@ import ir.maktab.services.PostService;
 import ir.maktab.services.UserService;
 
 import javax.servlet.ServletOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -97,7 +96,7 @@ public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository>
     }
 
     @Override
-    public boolean save(String content, String path) {
+    public boolean save(String content) {
         Post post = new Post();
         Date date = new Date();
         post.setDate(date);
@@ -140,21 +139,6 @@ public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository>
 
     }
 
-    @Override
-    public void displayFollowingsPosts() {
-//        userService.displayFollowings();
-//        String userName = sc.getString("Username: ");
-//        User user = userService.findByUserName(userName);
-//        user.getPosts()
-//                .forEach(displayPost.andThen(addLikeOrComment).andThen
-//                        ((c) -> deleteOutputFile()));
-//        deleteOutputFile();
-    }
-
-    private void deleteOutputFile() {
-        File file = new File("output.jpg");
-        file.delete();
-    }
 
     @Override
     public List<Post> getTrends() {
@@ -164,40 +148,46 @@ public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository>
     }
 
     @Override
-    public void edit() {
-//        List<Post> all = UserServiceImpl.getUser().getPosts();
-//        all.forEach(displayPost);
-//        int id = Integer.parseInt(sc.getString("Post ID: "));
-//        id--;
-//        try {
-//            Post post = all.get(id);
-//            if (post == null) return;
-//            String choice = sc.getString("Edit Content Or Delete Post?: (content,delete,deleteComment): ")
-//                    .toLowerCase();
-//            switch (choice) {
-//                case "content":
-//                    updateContent(post);
-//                    break;
-//                case "delete":
-//                    baseRepository.delete(post);
-//                    baseRepository.resetCache();
-//                    all.remove(post);
-//                    break;
-//                case "deletecomment":
-//                    all.remove(post);
-//                    deleteComment(post);
-//                    all.add(post);
-//                    break;
-//                default:
-//                    System.out.println("Invalid Input!");
-//            }
-//            UserServiceImpl.getUser().setPosts(all);
-//        } catch (IndexOutOfBoundsException ex) {
+    public void edit(ServletOutputStream out, String... fields) {
+        List<Post> all = UserServiceImpl.getUser().getPosts();
+        all.forEach((c) -> displayPost(c, out, false));
+        int id = Integer.parseInt(fields[0]);
+        id--;
+        try {
+            Post post = all.get(id);
+            if (post == null) return;
+            if (!(fields[1] == null || fields[1].equals("null"))) {
+                updateContent(post, fields[1]);
+            }
+            if (!(fields[2] == null || fields[2].equals("null"))) {
+                deleteComment(post, out);
+            }
+            if (!(fields[3] == null || fields[3].equals("null"))) {
+                baseRepository.delete(post);
+                baseRepository.resetCache();
+                all.remove(post);
+            }
+            UserServiceImpl.getUser().setPosts(all);
+        } catch (IndexOutOfBoundsException | IOException ex) {
 //            System.out.println(ex.getMessage());
-//        }
+            ex.printStackTrace();
+        }
+
     }
 
-    private void deleteComment(Post post) {
+    private void deleteComment(Post post, ServletOutputStream out) throws IOException {
+        out.println("<form name=\"form1\" method=\"post\" action=\"deletecomment\" target=\"_blank\">\n");
+        post.getComments().forEach((c) -> {
+            try {
+                out.println(String.valueOf(c));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        out.println("    <label for=\"id\">ID:</label><input type=\"text\" id=\"id\" name=\"id\">\n" +
+                "    <input type=\"submit\" value=\"submit\">\n" +
+                "</form>");
+        PostServiceImpl.post = post;
 //        List<Comment> comments = post.getComments();
 //        comments.forEach(System.out::println);
 //        int id = Integer.parseInt(sc.getString("Comment ID:"));
@@ -213,10 +203,9 @@ public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository>
 //        }
     }
 
-    private void updateContent(Post post) {
-//        String content = sc.getString("New Content: ");
-//        post.setContent(content);
-//        saveOrUpdate(post);
+    private void updateContent(Post post, String content) {
+        post.setContent(content);
+        saveOrUpdate(post);
     }
 
     @Override
@@ -226,47 +215,8 @@ public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository>
         return followings.stream()
                 .map(User::getPosts)
                 .collect(Collectors.toList());
-
-//        followings.stream()
-//                .map(User::getPosts)
-//                .forEach(posts -> posts.stream()
-//                        .filter((c) -> c.getDate().compareTo(user.getDate()) > 0)
-//                        .forEach(displayPost.andThen(addLikeOrComment).andThen((c) -> i.getAndIncrement()).andThen
-//                                ((c) -> deleteOutputFile())));
-//        if (i.get() == 0) {
-//            System.out.println("No Posts Till Now!");
-//        }
-
     }
 
-//    @Override
-//    public void displayCommentedPosts() {
-//        User u = UserServiceImpl.getUser();
-//        Set<Comment> comments = u.getComments();
-//        if(comments != null){
-//            int i = 0;
-//            Iterator<Comment> it = comments.iterator();
-//            while(it.hasNext() && i < 5){
-//                System.out.println(it.next().getPost());
-//                i++;
-//            }
-//        }else{
-//            System.out.println("No Post Commented");
-//        }
-//    }
-
-    @Override
-    public void displayUsersPosts() {
-        User u = UserServiceImpl.getUser();
-        displayPosts(u);
-    }
-
-    private void displayPosts(User u) {
-//        List<Post> posts = u.getPosts();
-//        posts.forEach(displayPost.andThen(addLikeOrComment).andThen
-//                ((c) -> deleteOutputFile()));
-//        deleteOutputFile();
-    }
 
     @Override
     public List<Post> getCommentedPosts() {
@@ -306,9 +256,9 @@ public class PostServiceImpl extends BaseServiceImpl<Post, Long, PostRepository>
 //                        "</video>");
 //                out.println("<br>" + c + "<hr>");
 //            } else {
-                out.println("<br>" + c + "<br>");
+            out.println("<br>" + c + "<br>");
 //            }
-            if(flag){
+            if (flag) {
                 out.println("<form name=\"form1\" method=\"post\" action=\"commentorlike\" target=\"_blank\">\n" +
                         "    <br>\n" +
                         "    <label for=\"Like\">Like:</label><input type=\"checkbox\" id=\"Like\" name=\"Like\" checked>\n" +

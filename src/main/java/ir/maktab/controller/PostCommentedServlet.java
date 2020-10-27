@@ -16,9 +16,17 @@ public class PostCommentedServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ServletOutputStream out = resp.getOutputStream();
-        resp.setContentType("text/html");
+        out.println("<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <title>Commented Posts</title>\n"
+                + "    <style>\n" );
+        MyApp.displayPage(resp, out);
         PostService postService = MyApp.getPostService();
         List<Post> commentedPosts = postService.getCommentedPosts();
         commentedPosts.forEach((c)->postService.displayPost(c,out, true));
+        out.println("</body>\n" +
+                "</html>");
     }
 }

@@ -1,0 +1,34 @@
+
+a{
+    color: wheat;
+}
+body{
+    background-color: black;
+    color: wheat;
+}
+form{
+    display: table;
+    margin: 0 auto;
+}
+h1{
+    margin: 0;
+}
+ul{
+    list-style-type: none;
+    display: table;
+    margin: 0 auto;
+    width: max-content;
+    height: min-content;
+}
+li{
+    border: aqua;
+}
+#div2{
+    padding: 1%;
+    margin: 0;
+    border: aqua;
+}
+html {
+    width: 100%;
+    height: 100%;
+}

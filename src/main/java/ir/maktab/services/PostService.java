@@ -8,19 +8,15 @@ import java.util.List;
 import java.util.Set;
 
 public interface PostService extends BaseService<Post, Long> {
-    boolean save(String content,String path);
+    boolean save(String content);
 
     Set<Post> getLikedPosts();
 
     List<List<Post>> getDailyPosts();
 
-    void displayUsersPosts();
-
-    void displayFollowingsPosts();
-
     List<Post> getTrends();
 
-    void edit();
+    void edit(ServletOutputStream out, String... fields);
 
     List<Post> getCommentedPosts();
 

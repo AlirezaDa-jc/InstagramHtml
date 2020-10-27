@@ -15,10 +15,24 @@ import java.util.Set;
 public class PostLikedServlet  extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ServletOutputStream out = resp.getOutputStream();
-        resp.setContentType("text/html");
-        PostService postService = MyApp.getPostService();
-        Set<Post> likedPosts = postService.getLikedPosts();
-        likedPosts.forEach((c)->postService.displayPost(c,out, true));
+        try (ServletOutputStream out = resp.getOutputStream()) {
+            out.println("<!DOCTYPE html>\n" +
+                    "<html lang=\"en\">\n" +
+                    "<head>\n" +
+                    "    <meta charset=\"UTF-8\">\n" +
+                    "    <title>Liked Posts</title>\n"
+                    + "    <style>\n" );
+            MyApp.displayPage(resp, out);
+            PostService postService = MyApp.getPostService();
+            Set<Post> likedPosts = postService.getLikedPosts();
+            if (likedPosts != null) {
+                likedPosts.forEach((c) -> postService.displayPost(c, out, true));
+            } else {
+                out.println("<h3>No Posts Liked!</h3>");
+            }
+            out.println("</body>\n" +
+                    "</html>");
+        }
     }
+
 }

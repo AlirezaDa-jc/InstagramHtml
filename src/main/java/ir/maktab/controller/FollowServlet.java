@@ -4,21 +4,25 @@ import ir.maktab.MyApp;
 import ir.maktab.services.UserService;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class FollowServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
+        ServletOutputStream out = resp.getOutputStream();
+        out.println("<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <title>Liked Posts</title>\n"
+                + "    <style>\n" );
+        MyApp.displayPage(resp, out);
         String userName = req.getParameter("username");
-        PrintWriter out = resp.getWriter();
-        out.println("<!DOCTYPE html>");
-        out.println("<html lang=\"en\">\n");
         UserService userService = MyApp.getUserService();
         if(userService.follow(userName)){
             out.println("You Are Now Following " + userName + " !");
